@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.somefood.R
@@ -15,6 +18,8 @@ import com.example.somefood.ui.fragmentAchievment.adapters.adapters.AchivmentIte
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AchievmentFragment : Fragment(R.layout.fragment_achievment) {
@@ -31,7 +36,6 @@ class AchievmentFragment : Fragment(R.layout.fragment_achievment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(binding.weatherRecyclerView) {
             layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -45,17 +49,19 @@ class AchievmentFragment : Fragment(R.layout.fragment_achievment) {
             }
             adapter = fastAdapter
         }
-        val list = listOf(
-            AchievmentCategory("Недавние"),
-            AchivmentItem(3),
-            AchivmentItem(22),
-            AchivmentItem(36),
-            AchivmentItem(0),
-            AchivmentItem(0),
-            AchievmentCategory("Нет данных"),
-            AchivmentItem(0),
-            AchivmentItem(0),
-        )
-        itemsAdapter.setNewList(list)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.list.filterNotNull().collect {
+                    itemsAdapter.setNewList(listOf(
+                        AchievmentCategory("Недавние")))
+                    it.map {
+                        itemsAdapter.add(AchivmentItem(it))
+                    }
+                }
+            }
+        }
+
+
     }
+
 }

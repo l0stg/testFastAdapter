@@ -27,16 +27,7 @@
                 android:layout_width="71dp"
                 android:layout_height="82dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_background"
-                app:tint="@color/purple_200" />
-
-            <ImageView
-                android:id="@+id/ramka"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_ramka"
-                app:tint="@color/white" />
+                android:src="@drawable/ic_yellow_medal" />
 
             <TextView
                 android:id="@+id/dayInMedal"

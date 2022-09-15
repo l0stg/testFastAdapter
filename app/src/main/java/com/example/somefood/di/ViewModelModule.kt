@@ -5,6 +5,7 @@ import com.example.somefood.ui.Registration.RegistrationViewModel
 import com.example.somefood.ui.bottomSheetFragment.DialogViewModel
 import com.example.somefood.ui.bottomSheetRating.BottomSheetRatingViewModel
 import com.example.somefood.ui.detailFood.DetailFoodViewModel
+import com.example.somefood.ui.fragmentAchievment.adapters.AchievmentViewModel
 import com.example.somefood.ui.helloScreen.HelloScreenViewModel
 import com.example.somefood.ui.historyOrderFragment.HistoryOrderViewModel
 import com.example.somefood.ui.mainActivite.MainViewModel
@@ -32,4 +33,5 @@ val viewModelModule = module {
     viewModel { ProfileViewModel (get(), get()) }
     viewModel { BottomSheetRatingViewModel(get(), get())}
     viewModel { HistoryOrderViewModel(get(), get())}
+    viewModel { AchievmentViewModel()}
 }
